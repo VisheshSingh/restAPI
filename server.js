@@ -18,6 +18,10 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRouter);
 
+app.all("*", (req, res) => {
+  res.json({ info: "Access Denied!!!" });
+});
+
 // listen to port
 app.listen(9090, () => {
   console.log("Server running at port 9090...");
