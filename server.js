@@ -29,8 +29,12 @@ app.post("/users", (req, res) => {
   res.json({ info: "User Posted successfully!" });
 });
 // PUT REQUEST
-app.put("/users", (req, res) => {
-  res.json({ info: "PUT request..." });
+app.put("/users/:id", (req, res) => {
+  let id = req.params.id;
+  //   console.log(id);
+  let { firstName, lastName, email, phone } = req.body;
+  p.updateUser(id, firstName, lastName, email, phone);
+  res.json({ info: "PUT request successful..." });
 });
 // DELETE REQUEST
 app.delete("/users", (req, res) => {
