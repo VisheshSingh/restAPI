@@ -30,15 +30,17 @@ app.post("/users", (req, res) => {
 });
 // PUT REQUEST
 app.put("/users/:id", (req, res) => {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   //   console.log(id);
   let { firstName, lastName, email, phone } = req.body;
   p.updateUser(id, firstName, lastName, email, phone);
   res.json({ info: "PUT request successful..." });
 });
 // DELETE REQUEST
-app.delete("/users", (req, res) => {
-  res.json({ info: "DELETE request..." });
+app.delete("/users/:id", (req, res) => {
+  let id = parseInt(req.params.id);
+  p.deleteUser(id);
+  res.json({ info: "DELETED the resource!" });
 });
 
 // listen to port
