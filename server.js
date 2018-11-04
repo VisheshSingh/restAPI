@@ -1,8 +1,18 @@
 // import express from node_modules
 const express = require("express");
+const Users = require("./Users");
+const bodyParser = require("body-parser");
+
+const p = new Users();
 
 // Make app use express
 const app = express();
+app.use(bodyParser.json());
+
+app.use("*", (req, res, next) => {
+  console.log(`${req.method} ${req.baseUrl}`);
+  next();
+});
 
 app.get("/", (req, res) => {
   res.json({ info: "The users API is available at /users" });
@@ -10,11 +20,13 @@ app.get("/", (req, res) => {
 
 // GET REQUEST
 app.get("/users", (req, res) => {
-  res.json({ info: "GET request..." });
+  res.json(p.getUsers());
 });
 // POST REQUEST
 app.post("/users", (req, res) => {
-  res.json({ info: "POST request..." });
+  let { firstName, lastName, email, phone } = req.body;
+  p.addUser(firstName, lastName, email, phone);
+  res.json({ info: "User Posted successfully!" });
 });
 // PUT REQUEST
 app.put("/users", (req, res) => {
