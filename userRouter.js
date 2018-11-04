@@ -12,6 +12,12 @@ userRouter.get("/", (req, res) => {
 userRouter.post("/", (req, res) => {
   let { firstName, lastName, email, phone } = req.body;
   p.addUser(firstName, lastName, email, phone);
+
+  if (firstName === undefined) {
+    res.json({ error: "firstName is missing!" });
+    return;
+  }
+
   res.json({ info: "User Posted successfully!" });
 });
 
