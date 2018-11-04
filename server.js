@@ -1,9 +1,7 @@
 // import express from node_modules
 const express = require("express");
-const Users = require("./Users");
 const bodyParser = require("body-parser");
-
-const p = new Users();
+const userRouter = require("./userRouter");
 
 // Make app use express
 const app = express();
@@ -18,30 +16,7 @@ app.get("/", (req, res) => {
   res.json({ info: "The users API is available at /users" });
 });
 
-// GET REQUEST
-app.get("/users", (req, res) => {
-  res.json(p.getUsers());
-});
-// POST REQUEST
-app.post("/users", (req, res) => {
-  let { firstName, lastName, email, phone } = req.body;
-  p.addUser(firstName, lastName, email, phone);
-  res.json({ info: "User Posted successfully!" });
-});
-// PUT REQUEST
-app.put("/users/:id", (req, res) => {
-  let id = parseInt(req.params.id);
-  //   console.log(id);
-  let { firstName, lastName, email, phone } = req.body;
-  p.updateUser(id, firstName, lastName, email, phone);
-  res.json({ info: "PUT request successful..." });
-});
-// DELETE REQUEST
-app.delete("/users/:id", (req, res) => {
-  let id = parseInt(req.params.id);
-  p.deleteUser(id);
-  res.json({ info: "DELETED the resource!" });
-});
+app.use("/users", userRouter);
 
 // listen to port
 app.listen(9090, () => {
